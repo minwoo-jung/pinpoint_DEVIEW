@@ -1,4 +1,4 @@
 spring:
   view:
-    prefix: /jsp/
+    prefix: /WEB-INF/jsp/
     suffix: .jsp
