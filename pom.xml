@@ -12,7 +12,7 @@
     <groupId>com.navercorp.pinpoint.test</groupId>
     <artifactId>testweb</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
 
     <properties>
         <tomcat.version>8.0.24</tomcat.version>
@@ -99,7 +99,11 @@
 	        <artifactId>junit</artifactId>
 	        <version>4.12</version>
         </dependency>
-        
+        <dependency>
+        	<groupId>org.apache.httpcomponents</groupId>
+        	<artifactId>httpclient</artifactId>
+        	<version>4.3</version>
+      	</dependency>
     </dependencies>
 
     <!-- Package as an executable jar -->
@@ -108,6 +112,9 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                	<classifier>exec</classifier>
+            </configuration>
             </plugin>
         </plugins>
     </build>
