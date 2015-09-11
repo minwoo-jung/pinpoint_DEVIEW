@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.navercorp.pinpoint.test.dao.UserMapper">
+
+    <resultMap type="com.navercorp.pinpoint.test.model.User" id="user">
+        <result property="id" column="id" />
+        <result property="nickname" column="nickname" />
+    </resultMap>
+
+    <select id="selectUser" resultMap="user">
+        SELECT id, nickname
+        FROM user_table
+    </select>
+
+</mapper>
