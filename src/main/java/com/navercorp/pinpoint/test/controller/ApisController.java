@@ -79,7 +79,7 @@ public class ApisController {
         return requestMappedUris;
     }
 
-    @RequestMapping(value = { "/" }, method = RequestMethod.GET)
+    @RequestMapping(method = RequestMethod.GET)
     public String apis(Model model) {
         model.addAttribute("apiMappings", this.apiMappings);
         return "apis";
