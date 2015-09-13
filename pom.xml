@@ -108,6 +108,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
                 	<classifier>exec</classifier>
+                    <jvmArguments>-Dpinpoint.agentId=deview-booth-agent -Dpinpoint.applicationName=DEVIEW_BOOTH_APP</jvmArguments>
             </configuration>
             </plugin>
         </plugins>

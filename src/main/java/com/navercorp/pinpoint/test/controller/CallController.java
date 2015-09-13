@@ -4,6 +4,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.navercorp.pinpoint.test.util.HttpUtils;
 import com.navercorp.pinpoint.test.util.NetUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.HttpClient;
@@ -19,74 +20,67 @@ import org.apache.http.impl.conn.SingleClientConnManager;
 import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.CoreProtocolPNames;
 import org.apache.http.params.HttpParams;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import sun.nio.ch.Net;
 
+import javax.annotation.PostConstruct;
+
 @Controller
 public class CallController {
+
+
+    @Value("#{pinpointDeviewProps['deview.server.ip'] ?: '127.0.0.1'}")
+    private String ip;
+
+    @Value("#{pinpointDeviewProps['deview.server.port'] ?: 80}")
+    private int port;
+
+    private String deviewAppHostAddress;
+
+    @PostConstruct
+    public void setUp() {
+        if (ip.equals("127.0.0.1")) {
+            deviewAppHostAddress = NetUtils.getLocalV4Ip();
+        } else {
+            deviewAppHostAddress = ip;
+        }
+
+        if (port != 80) {
+            deviewAppHostAddress += ":" + port;
+        }
+
+        System.out.println(deviewAppHostAddress);
+    }
+
 	@RequestMapping("/call")
 	@ResponseBody
-	public String loginform() {
-		call("http://www.naver.com", new HashMap<String, Object>(), "");
-		call("http://" + NetUtils.getLocalV4Ip() + "/callSelf/getCurrentTimestamp.pinpoint", new HashMap<String, Object>(), "");
-		return "success";
+	public String call() {
+		HttpUtils.call0("http://www.naver.com", new HashMap<String, Object>(), "");
+        return HttpUtils.call0(deviewAppHostAddress, "/callSelf/getCurrentTimestamp.pinpoint", new HashMap<String, Object>(), "");
 	}
 
-	
-    public String call(String uri, Map<String, Object> paramMap, String cookie) {
-        if (null == uri) {
-            return null;
-        }
-
-        HttpClient httpClient = null;
-        try {
-            HttpPost post = new HttpPost(uri);
-            if (cookie != null) {
-                post.setHeader("Cookie", cookie);
-            }
-            post.setEntity(getEntity(paramMap));
-            post.setParams(getHttpParams());
-            post.addHeader("Content-Type", "application/json;charset=UTF-8");
-
-            ResponseHandler<String> responseHandler = new BasicResponseHandler();
-
-            httpClient = getHttpClient(getHttpParams());
-
-            return httpClient.execute(post, responseHandler);
-        } catch (Exception e) {
-            System.out.println(e);
-            return e.getMessage();
-        } finally {
-            if (null != httpClient && null != httpClient.getConnectionManager()) {
-                httpClient.getConnectionManager().shutdown();
-            }
-        }
-    }
-    
-    private HttpClient getHttpClient(HttpParams params) {
-        SchemeRegistry schemeRegistry = new SchemeRegistry();
-        schemeRegistry.register(new Scheme("http", PlainSocketFactory.getSocketFactory(), 80));
-
-        SingleClientConnManager cm = new SingleClientConnManager(getHttpParams(), schemeRegistry);
-        DefaultHttpClient httpClient = new DefaultHttpClient(cm, getHttpParams());
-        httpClient.setParams(params);
-        return httpClient;
-    }
-    
-    private HttpEntity getEntity(Map<String, Object> paramMap) throws UnsupportedEncodingException {
-        if (paramMap.size() != 0) {
-            // size가 0일때 호출하면 entity에 {}가 들어감.
-            return new StringEntity(paramMap.toString(), "UTF-8");
-        } else {
-            return new StringEntity("", "UTF-8");
-        }
+    @RequestMapping("/getGeoCode")
+    @ResponseBody
+    public String getGeoCode() {
+        HttpUtils.call0("http://www.naver.com", new HashMap<String, Object>(), "");
+        return HttpUtils.call0(deviewAppHostAddress, "/httpclient4/getGeoCode.pinpoint", new HashMap<String, Object>(), "");
     }
 
-    private HttpParams getHttpParams() {
-        HttpParams params = new BasicHttpParams();
-        params.setParameter(CoreProtocolPNames.HTTP_CONTENT_CHARSET, "UTF-8");
-        return params;
+    @RequestMapping("/getTwitterUrlCount")
+    @ResponseBody
+    public String getTwitterUrlCount() {
+        HttpUtils.call0("http://www.naver.com", new HashMap<String, Object>(), "");
+        return HttpUtils.call0(deviewAppHostAddress, "/httpclient4/getTwitterUrlCount.pinpoint", new HashMap<String, Object>(), "");
     }
+
+    @RequestMapping("/getTwitterUrlCountByPost")
+    @ResponseBody
+    public String getTwitterUrlCountByPost() {
+        HttpUtils.call0("http://www.naver.com", new HashMap<String, Object>(), "");
+        return HttpUtils.call0(deviewAppHostAddress, "/httpclient4/getTwitterUrlCountByPost.pinpoint", new HashMap<String, Object>(), "");
+    }
+
 }
