@@ -4,6 +4,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.navercorp.pinpoint.test.util.NetUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.ResponseHandler;
@@ -21,14 +22,15 @@ import org.apache.http.params.HttpParams;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import sun.nio.ch.Net;
 
 @Controller
 public class CallController {
 	@RequestMapping("/call")
 	@ResponseBody
 	public String loginform() {
-		call("http://www.naver.com", new HashMap<>(), "");
-		call("http://10.64.130.136:28081/callSelf/getCurrentTimestamp.pinpoint", new HashMap<>(), "");
+		call("http://www.naver.com", new HashMap<String, Object>(), "");
+		call("http://" + NetUtils.getLocalV4Ip() + "/callSelf/getCurrentTimestamp.pinpoint", new HashMap<String, Object>(), "");
 		return "success";
 	}
 
