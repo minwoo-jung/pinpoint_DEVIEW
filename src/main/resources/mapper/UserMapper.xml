@@ -12,6 +12,23 @@
     <select id="selectUser" resultMap="user">
         SELECT id, nickname
         FROM user_table
+        WHERE id = #{id}
     </select>
+    
+    <insert id="insertUser" parameterType="user">
+        INSERT INTO user_table
+        VALUE (#{id}, #{nickName})
+    </insert>
+    
+    <delete id="deleteUser">
+        DELETE FROM user_table
+        WHERE id = #{id}
+    </delete>
+    
+    <update id="updateUser">
+        UPDATE user_table
+        SET nickname = #{nickName}
+        WHERE id = #{id}
+    </update>
 
 </mapper>

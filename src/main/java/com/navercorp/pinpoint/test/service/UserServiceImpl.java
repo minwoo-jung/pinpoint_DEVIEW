@@ -16,8 +16,24 @@ public class UserServiceImpl implements UserService {
     private UserMapper userMapper;
 
     @Override
-    public User get() {
-        return this.userMapper.selectUser();
+    public User get(String id) {
+        this.userMapper.selectUser(id);
+        return User.MOCK_USER;
+    }
+
+    @Override
+    public void insert(String id, String nickName) {
+        this.userMapper.insertUser(User.MOCK_USER);
+    }
+
+    @Override
+    public void delete(String id) {
+        this.userMapper.deleteUser(id);
+    }
+
+    @Override
+    public void update(String id, String nickName) {
+        this.userMapper.updateUser(User.MOCK_USER);
     }
 
 }

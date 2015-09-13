@@ -4,8 +4,18 @@ package com.navercorp.pinpoint.test.model;
  * @author hyungil.jeong
  */
 public class User {
+    
+    public static final User MOCK_USER = new User("deview_1", "Deview User");
+    
     private String id;
-    private String nickname;
+    private String nickName;
+    
+    public User() {}
+    
+    public User(String id, String nickName) {
+        this.id = id;
+        this.nickName = nickName;
+    }
 
     public String getId() {
         return id;
@@ -15,11 +25,11 @@ public class User {
         this.id = id;
     }
 
-    public String getNickname() {
-        return nickname;
+    public String getNickName() {
+        return nickName;
     }
 
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
+    public void setNickName(String nickName) {
+        this.nickName = nickName;
     }
 }

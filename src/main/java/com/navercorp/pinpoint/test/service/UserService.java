@@ -7,6 +7,12 @@ import com.navercorp.pinpoint.test.model.User;
  */
 public interface UserService {
 
-    User get();
-    
+    User get(String id);
+
+    void insert(String id, String nickName);
+
+    void delete(String id);
+
+    void update(String id, String nickName);
+
 }

@@ -43,4 +43,14 @@ public class MockConnection extends JDBC4Connection {
         }
         return new MockPreparedStatement(this, sql, databaseName);
     }
+    
+    @Override
+    public String getServerCharset() {
+        return "UTF-8";
+    }
+    
+    @Override
+    public boolean isReadOnly(boolean useSessionStatus) throws SQLException {
+        return false;
+    }
 }
